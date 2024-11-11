@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flex{
+  display: flex;
+  box-shadow: 1px 1px 15px #ccc;
+}
+body{
+  font-family: sans-serif;
+  width: 90%;
+  margin: auto;
+  padding-top: 50px;
+}
+.flex img{
+  width: 200px;
+  height: 200px;
+}
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+.btnAdd{
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+.flexx{
+
+}
