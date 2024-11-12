@@ -53,13 +53,13 @@ export default function App() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center py-6">
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center py-6 px-4">
       {/* Add New Item Form */}
       <form
         onSubmit={handleAdd}
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg"
+        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Add New Item</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">Add New Item</h2>
         <div className="space-y-4">
           <input
             type="text"
@@ -93,8 +93,8 @@ export default function App() {
 
       {/* Edit Modal */}
       {modalEdit && (
-        <dialog open className="modalEdit fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
+        <dialog open className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
             <button
               onClick={() => setModalEdit(false)}
               className="absolute top-4 right-4 text-gray-600"
@@ -131,8 +131,8 @@ export default function App() {
 
       {/* Information Modal */}
       {modalInfo && (
-        <dialog open className="modalInfo fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
+        <dialog open className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
             <button
               onClick={() => setModalInfo(false)}
               className="absolute top-4 right-4 text-gray-600"
@@ -168,7 +168,7 @@ export default function App() {
       {/* Grid of Items */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 w-full max-w-7xl">
         {data.map((el, i) => (
-          <div key={i} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center space-y-4">
+          <div key={i} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center space-y-4 hover:shadow-xl transition-shadow duration-300">
             {el?.images?.map((el, idx) => (
               <div key={idx} className="relative">
                 <img
@@ -200,13 +200,13 @@ export default function App() {
                   setName(el.name);
                   setDesc(el.description);
                 }}
-                className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition duration-200"
+                className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition duration-200"
               >
                 Edit
               </button>
               <button
                 onClick={() => setModalInfo(true)}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200"
               >
                 Info
               </button>
