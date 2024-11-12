@@ -62,4 +62,17 @@ export const useList = create((set, get) => ({
       console.error(error);
     }
   },
+  complete: async (el) => {
+    try {
+      await axios.put(`${url}/completed?id=${el.id}`, {
+        name: el.name,
+        id: el.id,
+        description: el.description,
+        isCompleted: !el.isCompleted
+      })
+      get().getUsers();
+    } catch (error) {
+      console.error(error);
+    }
+}
 }));
