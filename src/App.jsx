@@ -188,7 +188,7 @@ export default function App() {
               </button>
             </div>
               {modalInfo && (
-          <dialog open className="dialog fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <dialog open className="dialog inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white p-8 rounded-lg w-full max-w-md relative shadow-lg transform transition-all duration-300 scale-95 md:scale-100">
               <button
                 onClick={() => setModalInfo(false)}
