@@ -9,6 +9,8 @@ export default function App() {
     deletUser,
     idx,
     setIdx,
+    idxx,
+    setIdxx,
     deleteImage,
     modalEdit,
     setModalEdit,
@@ -19,7 +21,8 @@ export default function App() {
     setName,
     setDesc,
     putUser,
-    complete
+    complete,
+    postImage,
   } = useList();
 
   useEffect(() => {
@@ -42,7 +45,6 @@ export default function App() {
       console.error(error);
     }
   };
-
   const handleEdit = () => {
     let obj = {
       name: name,
@@ -52,12 +54,26 @@ export default function App() {
     putUser(obj);
     setModalEdit(false);
   };
+  const handleImageAdd = (e) => {
+    e.preventDefault();
+    const formdata = new FormData();
+    const files = e.target['filesAdd'].files;
+    for (let i = 0; i < files.length; i++) {
+      formdata.append("Images", files[i]);
+    }
+    postImage(formdata, idx);
+  }
+
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center py-6 px-4">
-      {/* Add New Item Form */}
-      <form onSubmit={handleAdd} className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">Add New Item</h2>
+      <form
+        onSubmit={handleAdd}
+        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg"
+      >
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">
+          Add New Item
+        </h2>
         <div className="space-y-4">
           <input
             type="text"
@@ -88,20 +104,34 @@ export default function App() {
           </button>
         </div>
       </form>
-
-      {/* Edit Modal */}
       {modalEdit && (
-        <dialog open className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <dialog
+          open
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+        >
           <div className="bg-white p-8 rounded-lg w-full max-w-md relative shadow-lg transform transition-all duration-300 scale-95 md:scale-100">
             <button
               onClick={() => setModalEdit(false)}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
-            <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Edit Item</h2>
+            <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
+              Edit Item
+            </h2>
             <input
               type="text"
               value={name}
@@ -130,14 +160,29 @@ export default function App() {
           </div>
         </dialog>
       )}
-
-      {/* Information Modal */}
-    
-
-      {/* Grid of Items */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 w-full max-w-7xl">
         {data.map((el, i) => (
-          <div key={i} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center space-y-4 hover:shadow-xl transition-shadow duration-300">
+          <div
+            key={i}
+            className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center space-y-4 hover:shadow-xl transition-shadow duration-300"
+          >
+            <form
+              onSubmit={(e) => {
+                (idx = el.id), handleImageAdd(e), console.log(idx);
+              }}
+            >
+              <input
+                type="file"
+                className="mt-[10px] bg-white"
+                name="filesAdd"
+              />
+              <button
+                className="p-[5px] bg-gray-500 text-white rounded-md hover:bg-black-600"
+                type="submit"
+              >
+                Add image
+              </button>
+            </form>
             {el?.images?.map((image, idx) => (
               <div key={idx} className="relative">
                 <img
@@ -153,8 +198,15 @@ export default function App() {
                 </button>
               </div>
             ))}
-            <h2 className="text-xl font-semibold" style={{color:el.isCompleted?"red":"black"}}>{el.name}</h2>
-            <p style={{color:el.isCompleted?"red":"black"}}>{el.description}</p>
+            <h2
+              className="text-xl font-semibold"
+              style={{ color: el.isCompleted ? "red" : "black" }}
+            >
+              {el.name}
+            </h2>
+            <p style={{ color: el.isCompleted ? "red" : "black" }}>
+              {el.description}
+            </p>
             <div className="flex gap-4 mt-4">
               <button
                 onClick={() => deletUser(el.id)}
@@ -179,33 +231,58 @@ export default function App() {
               >
                 Info
               </button>
-              <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200"
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200"
                 onClick={() => {
-                  complete(el)
+                  complete(el);
                 }}
- >
+              >
                 Complete
               </button>
+              <br />
             </div>
-              {modalInfo && (
-          <dialog open className="dialog inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white p-8 rounded-lg w-full max-w-md relative shadow-lg transform transition-all duration-300 scale-95 md:scale-100">
-              <button
-                onClick={() => setModalInfo(false)}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
+            {modalInfo && (
+              <dialog
+                open
+                className="dialog inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Item Information</h2>
-              <h3 className="text-lg font-semibold mb-2 text-gray-700">{el.name}</h3>
-              <p className="text-gray-600 mb-4">{el.description}</p>
+                <div className="bg-white p-8 rounded-lg w-full max-w-md relative shadow-lg transform transition-all duration-300 scale-95 md:scale-100">
+                  <button
+                    onClick={() => setModalInfo(false)}
+                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                  <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
+                    Item Information
+                  </h2>
+                  <h3 className="text-lg font-semibold mb-2 text-gray-700">
+                    {el.name}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{el.description}</p>
                   {el?.images?.map((image) => (
-                    <div key={image.id} className="flex flex-col items-center mb-6">
+                    <div
+                      key={image.id}
+                      className="flex flex-col items-center mb-6"
+                    >
                       <img
                         className="w-[200px] h-[200px] object-cover rounded-lg mb-2"
-                        src={`${import.meta.env.VITE_API_IMAGES}${image?.imageName}`}
+                        src={`${import.meta.env.VITE_API_IMAGES}${
+                          image?.imageName
+                        }`}
                         alt={image?.imageName}
                       />
                       <button
@@ -217,8 +294,8 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-          </dialog>
-        )}
+              </dialog>
+            )}
           </div>
         ))}
       </div>

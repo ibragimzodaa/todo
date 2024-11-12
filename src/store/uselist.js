@@ -29,15 +29,19 @@ export const useList = create((set, get) => ({
     }
   },
   modalEdit: false,
-  setModalEdit: (status) => {set(state => ({modalEdit: status}))},
+  setModalEdit: (status) => {
+    set((state) => ({ modalEdit: status }));
+  },
   modalInfo: false,
-  setModalInfo: (status) => {set(state => ({modalInfo: status}))},
+  setModalInfo: (status) => {
+    set((state) => ({ modalInfo: status }));
+  },
   idx: null,
-  setIdx: (value) => set(state => ({idx:value})),
+  setIdx: (value) => set((state) => ({ idx: value })),
   name: "",
-  setName: (value) => set(state => ({name:value})),
+  setName: (value) => set((state) => ({ name: value })),
   desc: "",
-  setDesc: (value) => set(state => ({desc:value})), 
+  setDesc: (value) => set((state) => ({ desc: value })),
   putUser: async (obj) => {
     try {
       await axios.put(`${url}/api/to-dos`, obj);
@@ -68,11 +72,21 @@ export const useList = create((set, get) => ({
         name: el.name,
         id: el.id,
         description: el.description,
-        isCompleted: !el.isCompleted
-      })
+        isCompleted: !el.isCompleted,
+      });
       get().getUsers();
     } catch (error) {
       console.error(error);
     }
-}
+  },
+  postImage: async (obj, id) => {
+    try {
+        await axios.post(`${url}/api/to-dos/${id}/images`, obj);
+        get().getUsers();
+    } catch (error) {
+        console.error(error);   
+    }
+},
+  idxx: null,
+  setIdxx: (value) => set((state) => ({ idxx: value })),
 }));
