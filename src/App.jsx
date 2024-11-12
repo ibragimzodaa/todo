@@ -201,8 +201,6 @@ export default function App() {
               <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Item Information</h2>
               <h3 className="text-lg font-semibold mb-2 text-gray-700">{el.name}</h3>
               <p className="text-gray-600 mb-4">{el.description}</p>
-              {data.map((el, i) => (
-                <div key={i} className="mt-4">
                   {el?.images?.map((image) => (
                     <div key={image.id} className="flex flex-col items-center mb-6">
                       <img
@@ -219,8 +217,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-              ))}
-            </div>
           </dialog>
         )}
           </div>
